@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="worthingtonModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="worthingtonModelStoreContainer">
+          <EntitySet Name="Book" EntityType="worthingtonModel.Store.Book" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Item" EntityType="worthingtonModel.Store.Item" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ItemDescription" EntityType="worthingtonModel.Store.ItemDescription" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ItemInventory" EntityType="worthingtonModel.Store.ItemInventory" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ItemType" EntityType="worthingtonModel.Store.ItemType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SpoilerFilter" EntityType="worthingtonModel.Store.SpoilerFilter" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Item_ItemInventory" Association="worthingtonModel.Store.FK_Item_ItemInventory">
+            <End Role="ItemInventory" EntitySet="ItemInventory" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemDescription_Item" Association="worthingtonModel.Store.FK_ItemDescription_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="ItemDescription" EntitySet="ItemDescription" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Name="BookID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="number" Type="int" />
+          <Property Name="title" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="type" Type="int" />
+          <Property Name="firstMentionBook" Type="int" />
+          <Property Name="firstMentionChapter" Type="int" />
+          <Property Name="eventDate" Type="int" />
+          <Property Name="ItemDescID" Type="int" />
+          <Property Name="ItemInvID" Type="int" />
+        </EntityType>
+        <EntityType Name="ItemDescription">
+          <Key>
+            <PropertyRef Name="ItemDescID" />
+          </Key>
+          <Property Name="ItemDescID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ItemID" Type="int" />
+          <Property Name="bookNumber" Type="int" />
+          <Property Name="description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="ItemInventory">
+          <Key>
+            <PropertyRef Name="ItemInvID" />
+          </Key>
+          <Property Name="ItemInvID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ItemID" Type="int" />
+        </EntityType>
+        <EntityType Name="ItemType">
+          <Key>
+            <PropertyRef Name="ItemTypeID" />
+          </Key>
+          <Property Name="ItemTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ItemType" Type="int" />
+        </EntityType>
+        <EntityType Name="SpoilerFilter">
+          <Key>
+            <PropertyRef Name="SpoilerFilterID" />
+          </Key>
+          <Property Name="SpoilerFilterID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="latestRead" Type="int" />
+        </EntityType>
+        <Association Name="FK_Item_ItemInventory">
+          <End Role="ItemInventory" Type="worthingtonModel.Store.ItemInventory" Multiplicity="0..1" />
+          <End Role="Item" Type="worthingtonModel.Store.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemInventory">
+              <PropertyRef Name="ItemInvID" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="ItemInvID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemDescription_Item">
+          <End Role="Item" Type="worthingtonModel.Store.Item" Multiplicity="0..1" />
+          <End Role="ItemDescription" Type="worthingtonModel.Store.ItemDescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemID" />
+            </Principal>
+            <Dependent Role="ItemDescription">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="worthingtonModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="worthingtonEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Books" EntityType="worthingtonModel.Book" />
+          <EntitySet Name="Items" EntityType="worthingtonModel.Item" />
+          <EntitySet Name="ItemDescriptions" EntityType="worthingtonModel.ItemDescription" />
+          <EntitySet Name="ItemInventories" EntityType="worthingtonModel.ItemInventory" />
+          <EntitySet Name="ItemTypes" EntityType="worthingtonModel.ItemType" />
+          <EntitySet Name="SpoilerFilters" EntityType="worthingtonModel.SpoilerFilter" />
+          <AssociationSet Name="FK_Item_ItemInventory" Association="worthingtonModel.FK_Item_ItemInventory">
+            <End Role="ItemInventory" EntitySet="ItemInventories" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemDescription_Item" Association="worthingtonModel.FK_ItemDescription_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ItemDescription" EntitySet="ItemDescriptions" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Name="BookID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="number" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="firstMentionBook" Type="Int32" />
+          <Property Name="firstMentionChapter" Type="Int32" />
+          <Property Name="eventDate" Type="Int32" />
+          <Property Name="ItemDescID" Type="Int32" />
+          <Property Name="ItemInvID" Type="Int32" />
+          <NavigationProperty Name="ItemInventory" Relationship="worthingtonModel.FK_Item_ItemInventory" FromRole="Item" ToRole="ItemInventory" />
+          <NavigationProperty Name="ItemDescriptions" Relationship="worthingtonModel.FK_ItemDescription_Item" FromRole="Item" ToRole="ItemDescription" />
+        </EntityType>
+        <EntityType Name="ItemDescription">
+          <Key>
+            <PropertyRef Name="ItemDescID" />
+          </Key>
+          <Property Name="ItemDescID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemID" Type="Int32" />
+          <Property Name="bookNumber" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Item" Relationship="worthingtonModel.FK_ItemDescription_Item" FromRole="ItemDescription" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="ItemInventory">
+          <Key>
+            <PropertyRef Name="ItemInvID" />
+          </Key>
+          <Property Name="ItemInvID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemID" Type="Int32" />
+          <NavigationProperty Name="Items" Relationship="worthingtonModel.FK_Item_ItemInventory" FromRole="ItemInventory" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="ItemType">
+          <Key>
+            <PropertyRef Name="ItemTypeID" />
+          </Key>
+          <Property Name="ItemTypeID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemType1" Type="Int32" />
+        </EntityType>
+        <EntityType Name="SpoilerFilter">
+          <Key>
+            <PropertyRef Name="SpoilerFilterID" />
+          </Key>
+          <Property Name="SpoilerFilterID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="latestRead" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_Item_ItemInventory">
+          <End Role="ItemInventory" Type="worthingtonModel.ItemInventory" Multiplicity="0..1" />
+          <End Role="Item" Type="worthingtonModel.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemInventory">
+              <PropertyRef Name="ItemInvID" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="ItemInvID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemDescription_Item">
+          <End Role="Item" Type="worthingtonModel.Item" Multiplicity="0..1" />
+          <End Role="ItemDescription" Type="worthingtonModel.ItemDescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemID" />
+            </Principal>
+            <Dependent Role="ItemDescription">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="worthingtonModelStoreContainer" CdmEntityContainer="worthingtonEntities">
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="worthingtonModel.Book">
+              <MappingFragment StoreEntitySet="Book">
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="title" ColumnName="title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="worthingtonModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="firstMentionBook" ColumnName="firstMentionBook" />
+                <ScalarProperty Name="firstMentionChapter" ColumnName="firstMentionChapter" />
+                <ScalarProperty Name="eventDate" ColumnName="eventDate" />
+                <ScalarProperty Name="ItemDescID" ColumnName="ItemDescID" />
+                <ScalarProperty Name="ItemInvID" ColumnName="ItemInvID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemDescriptions">
+            <EntityTypeMapping TypeName="worthingtonModel.ItemDescription">
+              <MappingFragment StoreEntitySet="ItemDescription">
+                <ScalarProperty Name="ItemDescID" ColumnName="ItemDescID" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="bookNumber" ColumnName="bookNumber" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemInventories">
+            <EntityTypeMapping TypeName="worthingtonModel.ItemInventory">
+              <MappingFragment StoreEntitySet="ItemInventory">
+                <ScalarProperty Name="ItemInvID" ColumnName="ItemInvID" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemTypes">
+            <EntityTypeMapping TypeName="worthingtonModel.ItemType">
+              <MappingFragment StoreEntitySet="ItemType">
+                <ScalarProperty Name="ItemTypeID" ColumnName="ItemTypeID" />
+                <ScalarProperty Name="ItemType1" ColumnName="ItemType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpoilerFilters">
+            <EntityTypeMapping TypeName="worthingtonModel.SpoilerFilter">
+              <MappingFragment StoreEntitySet="SpoilerFilter">
+                <ScalarProperty Name="SpoilerFilterID" ColumnName="SpoilerFilterID" />
+                <ScalarProperty Name="latestRead" ColumnName="latestRead" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
