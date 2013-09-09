@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL.csproj", "{7F34CF44-CB9E-4811-9699-8223D1210022}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DALUnitTest", "..\DALUnitTest\DALUnitTest.csproj", "{79D58D01-59BF-448E-B309-26C4F5881D8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{7F34CF44-CB9E-4811-9699-8223D1210022}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F34CF44-CB9E-4811-9699-8223D1210022}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F34CF44-CB9E-4811-9699-8223D1210022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79D58D01-59BF-448E-B309-26C4F5881D8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D58D01-59BF-448E-B309-26C4F5881D8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D58D01-59BF-448E-B309-26C4F5881D8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D58D01-59BF-448E-B309-26C4F5881D8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
