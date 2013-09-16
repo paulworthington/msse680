@@ -8,156 +8,107 @@ using System.Linq.Expressions;
 using System.Data.Entity;
 using System.Configuration;
 
-
 namespace DAL
 {
+    // Define interfaces
+    
+    public interface IGenericRepository<T> where T : class
+    {
+        void Insert(T entity);
+        void Delete(T entity);
+        IQueryable<T> GetAll();
+        void Update(T entity);
+        IQueryable<T> GetByKey(string KeyName, string KeyValue);
+        IQueryable<T> GetByKey(string KeyName, int? KeyValue);
+    }
 
-        // Define interfaces
+    public interface IGenericRepository
+    {
+        void Insert(object entity);
+        void Delete(object entity);
+        IQueryable GetAll();
+        void Update(object entity);
+        IQueryable GetByKey(string KeyName, string KeyValue);
+        IQueryable GetByKey(string KeyName, int? KeyValue);
+    }
 
-        /// <summary>
-        /// Generic interface
-        /// </summary>
-        /// <typeparam name="T">Type of entity</typeparam>
-        public interface IDataRepository<T> where T : class
-        {
-            IQueryable<T> GetAll();
-            void Insert(T entity);
-            void Update(T entity);
-            void Delete(T entity);
-            IQueryable<T> GetBySpecificKey(string KeyName, string KeyVal);
-            IQueryable<T> GetBySpecificKey(string KeyName, int KeyVal);
-        }
-
-        /// <summary>
-        /// Generic interface
-        /// </summary>
-        public interface IDataRepository
-        {
-            IQueryable GetAll();
-            void Insert(object entity);
-            void Update(object entity);
-            void Delete(object entity);
-            IQueryable GetBySpecificKey(string KeyName, string KeyVal);
-            IQueryable GetBySpecificKey(string KeyName, int KeyVal);
-        }
-
-
-
-
-    // here is the repository class
-    public class DataRepository<T> : IDataRepository<T>, IDataRepository where T : class
+    // the repository class
+    public class GenericRepository<T> : IGenericRepository<T>, IGenericRepository where T : class
     {
 
-        /// <summary>
-        /// Data Context object to interact with the db
-        /// </summary>
-        readonly DbContext _dataContext;
+        // Data Context object
+        private DbContext dataContext;
 
-        /// <summary>
-        /// Public constructor
-        /// </summary>
-        public DataRepository()
+        // Constructor
+        public GenericRepository()
         {
-            //instantiate the datacontext by reading the connection string
-            _dataContext = new DbContext(ConfigurationManager.ConnectionStrings["worthingtonEntities"].ConnectionString);
-            // DbSet = _dataContext.Set<T>();
+            // read the database connection string
+            dataContext = new DbContext(ConfigurationManager.ConnectionStrings["worthingtonEntities"].ConnectionString);
         }
 
-        // INSERT ********************************************************
-        void IDataRepository.Insert(object entity)
+        // interfaces
+        void IGenericRepository.Insert(object entity)
         {
             Insert((T)entity);
         }
 
-        public virtual void Insert(T entity)
-        {
-            _dataContext.Set<T>().Add(entity);
-            // DbSet.Add(entity);
-            _dataContext.SaveChanges();
-        }
-        // ****************************************************************
-
-        // DELETE *********************************************************
-        void IDataRepository.Delete(object entity)
+        void IGenericRepository.Delete(object entity)
         {
             Delete((T)entity);
         }
 
-        /*
-        public virtual void Delete(T entity)
-        {
-            var entry = _dataContext.Entry(entity);
-            if (entry != null)
-            {
-                entry.State = System.Data.EntityState.Deleted;
-            }
-            else
-            {
-                _dataContext.Set<T>().Attach(entity);
-            }
-            _dataContext.Entry(entity).State = System.Data.EntityState.Deleted;
-            _dataContext.SaveChanges();
-
-        }
-         */
-
-        public virtual void Delete(T entity)
-        {
-            _dataContext.Set<T>().Remove(entity);
-            // DbSet.Remove(entity);
-            _dataContext.SaveChanges();
-        }
-        // ****************************************************************
-
-        // GET ALL ********************************************************
-        IQueryable IDataRepository.GetAll()
+        IQueryable IGenericRepository.GetAll()
         {
             return GetAll();
         }
 
-        public virtual IQueryable<T> GetAll()
-        {
-            return _dataContext.Set<T>().AsQueryable();
-            // return DbSet.AsQueryable();
-        }
-        // ****************************************************************
-
-        // UPDATE *********************************************************
-        void IDataRepository.Update(object entity)
+        void IGenericRepository.Update(object entity)
         {
             Update((T)entity);
         }
 
+        IQueryable IGenericRepository.GetByKey(string KeyName, int? KeyValue)
+        {
+            return GetByKey(KeyName, KeyValue);
+        }
+
+        IQueryable IGenericRepository.GetByKey(string KeyName, string KeyValue)
+        {
+            return GetByKey(KeyName, KeyValue);
+        }
+
+        // Define methods
+
+        public virtual void Insert(T entity)
+        {
+            dataContext.Set<T>().Add(entity);
+            dataContext.SaveChanges();
+        }
+
+        public virtual void Delete(T entity)
+        {
+            dataContext.Set<T>().Remove(entity);
+            dataContext.SaveChanges();
+        }
+
+        public virtual IQueryable<T> GetAll()
+        {
+            return dataContext.Set<T>().AsQueryable();
+        }
+
         public virtual void Update(T entity)
         {
-            _dataContext.Set<T>().Attach(entity);
-            // DbSet.Attach(entity);
-            _dataContext.Entry(entity).State = System.Data.EntityState.Modified;
-            _dataContext.SaveChanges();
-        }
-        // ****************************************************************
-
-        // GET BY SPECIFIC KEY ********************************************
-        IQueryable IDataRepository.GetBySpecificKey(string KeyName, int KeyVal)
-        {
-            return GetBySpecificKey(KeyName, KeyVal);
+            dataContext.Set<T>().Attach(entity);
+            dataContext.Entry(entity).State = System.Data.EntityState.Modified;
+            dataContext.SaveChanges();
         }
 
-        public virtual IQueryable<T> GetBySpecificKey(string KeyName, int KeyVal)
+        // overload GetByKey() to accommodate nullable int and string
+        public virtual IQueryable<T> GetByKey(string KeyName, int? KeyValue)
         {
-
             var itemParameter = Expression.Parameter(typeof(T), "item");
             var whereExpression = Expression.Lambda<Func<T, bool>>
-                (
-                Expression.Equal(
-                    Expression.Property(
-                        itemParameter,
-                       KeyName
-                        ),
-                    Expression.Constant(KeyVal)
-                    ),
-                new[] { itemParameter }
-                );
+                (Expression.Equal(Expression.Property(itemParameter, KeyName), Expression.Constant(KeyValue, typeof(int?))), new[] { itemParameter });
             try
             {
                 return GetAll().Where(whereExpression).AsQueryable();
@@ -166,31 +117,13 @@ namespace DAL
             {
                 return null;
             }
-
         }
 
-
-
-        IQueryable IDataRepository.GetBySpecificKey(string KeyName, string KeyVal)
+        public virtual IQueryable<T> GetByKey(string KeyName, string KeyValue)
         {
-            return GetBySpecificKey(KeyName, KeyVal);
-        }
-
-        public virtual IQueryable<T> GetBySpecificKey(string KeyName, string KeyVal)
-        {
-
             var itemParameter = Expression.Parameter(typeof(T), "item");
             var whereExpression = Expression.Lambda<Func<T, bool>>
-                (
-                Expression.Equal(
-                    Expression.Property(
-                        itemParameter,
-                       KeyName
-                        ),
-                    Expression.Constant(KeyVal)
-                    ),
-                new[] { itemParameter }
-                );
+                (Expression.Equal(Expression.Property(itemParameter, KeyName), Expression.Constant(KeyValue)), new[] { itemParameter });
             try
             {
                 return GetAll().Where(whereExpression).AsQueryable();
@@ -199,9 +132,7 @@ namespace DAL
             {
                 return null;
             }
-
         }
-        // ****************************************************************
 
     }
 
