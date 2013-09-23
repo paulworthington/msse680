@@ -9,25 +9,24 @@ using DAL;
 namespace Service
 {
 
-    // sample code
     public class RFactory
     {
-        public IGenericRepository GetRepository(string sRepositoryType)
+        public IGenericRepository getRepository(string repositoryName)
         {
-            IGenericRepository objRepo;
-            switch (sRepositoryType)
+            IGenericRepository repositoryInstance;
+            switch (repositoryName)
             {
                 case "Item":
-                    objRepo = new GenericRepository<Item>();
+                    repositoryInstance = new GenericRepository<Item>();
                     break;
                 case "ItemDescription":
-                    objRepo = new GenericRepository<ItemDescription>();
+                    repositoryInstance = new GenericRepository<ItemDescription>();
                     break;
                 default:
-                    objRepo = null;
-                    throw new System.ArgumentException("Unimplemented Repository type " + sRepositoryType);
+                    repositoryInstance = null;
+                    throw new System.ArgumentException("Unimplemented Repository type: " + repositoryName);
             }
-            return objRepo;
+            return repositoryInstance;
         }
     }
 
