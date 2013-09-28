@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL.csproj", "{7F34CF44-CB9E-4811-9699-8223D1210022}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "..\DAL\DAL.csproj", "{7F34CF44-CB9E-4811-9699-8223D1210022}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DALUnitTest", "..\DALUnitTest\DALUnitTest.csproj", "{79D58D01-59BF-448E-B309-26C4F5881D8F}"
 EndProject
