@@ -9,10 +9,16 @@ namespace Service
 {
     public class SFactory
     {
+
+        private static SFactory svcFactory = new SFactory();
+        public static SFactory GetInstance()
+        {
+            return svcFactory;
+        }
+
         public IService getService(String serviceName)
         {
             IService serviceInstance = null;
-
             switch (serviceName)
             {
                 case "Item":
