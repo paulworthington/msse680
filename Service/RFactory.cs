@@ -9,7 +9,6 @@ namespace Service
 {
     public class RFactory
     {
-
         private static RFactory repoFactory = new RFactory();
         public static RFactory GetInstance()
         {
