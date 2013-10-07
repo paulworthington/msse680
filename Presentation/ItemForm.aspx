@@ -48,7 +48,7 @@
         <br />
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="ObjectDataSource1">
             <Columns>
-                <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" />
+                <asp:CommandField ShowEditButton="True" />
                 <asp:BoundField DataField="ItemID" HeaderText="ItemID" SortExpression="ItemID" />
                 <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
                 <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
