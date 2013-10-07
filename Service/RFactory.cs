@@ -26,6 +26,9 @@ namespace Service
                 case "ItemDescription":
                     repositoryInstance = new GenericRepository<ItemDescription>();
                     break;
+                case "ItemType":
+                    repositoryInstance = new GenericRepository<ItemType>();
+                    break;
                 default:
                     repositoryInstance = null;
                     throw new System.ArgumentException("Unimplemented Repository type: " + repositoryName);

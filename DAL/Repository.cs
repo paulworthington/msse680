@@ -87,8 +87,31 @@ namespace DAL
 
         public virtual void Delete(T entity)
         {
+            /* How can it be that this works fine in unit tests
+             * but fails when wired up to the web form?
+             */
+
+            /* This doesn't help.
+            dataContext.Set<T>().Attach(entity);
+             */
+
             dataContext.Set<T>().Remove(entity);
             dataContext.SaveChanges();
+
+            /* This doesn't work. Nothing works.
+            var entry = dataContext.Entry(entity);
+            if (entry != null)
+            {
+                entry.State = System.Data.EntityState.Deleted;
+            }
+            else
+            {
+                dataContext.Set<T>().Attach(entity);
+            }
+            dataContext.Entry(entity).State = System.Data.EntityState.Deleted;
+            dataContext.SaveChanges();
+             */
+             
         }
 
         public virtual IQueryable<T> GetAll()

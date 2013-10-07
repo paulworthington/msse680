@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ItemDescriptionMgr.cs" />
+    <Compile Include="ItemTypeMgr.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="ItemMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
