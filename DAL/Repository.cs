@@ -98,7 +98,7 @@ namespace DAL
             dataContext.Set<T>().Remove(entity);
             dataContext.SaveChanges();
 
-            /* This doesn't work. Nothing works.
+            /* This still doesn't work. Nothing works.
             var entry = dataContext.Entry(entity);
             if (entry != null)
             {
