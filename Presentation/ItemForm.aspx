@@ -40,7 +40,7 @@
         <br />
     
     </div>
-        <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" SelectMethod="GetAll" TypeName="Business.ItemMgr" DataObjectTypeName="DAL.Item" DeleteMethod="Delete"></asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" SelectMethod="GetAll" TypeName="Business.ItemMgr" DataObjectTypeName="DAL.Item" DeleteMethod="Delete" UpdateMethod="Update"></asp:ObjectDataSource>
         <br />
         <br />
 
