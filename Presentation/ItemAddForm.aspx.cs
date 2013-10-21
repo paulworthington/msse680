@@ -11,12 +11,12 @@ namespace Presentation
 {
     public partial class ItemForm : System.Web.UI.Page
     {
-        /*
+        
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
-         */
+         
 
         protected void Button1_Click(object sender, EventArgs e)
         {
@@ -30,7 +30,7 @@ namespace Presentation
             myItem.name = this.TextBox1.Text;
             myItem.type = this.DropDownList1.SelectedIndex;
             myItem.firstMentionBook = this.DropDownList2.SelectedIndex;
-            myItem.firstMentionChapter = Convert.ToInt32(this.TextBox4.Text);
+            myItem.firstMentionChapter = this.DropDownList3.SelectedIndex;
 
             ItemMgr itemManager = new ItemMgr();
             itemManager.Insert(myItem);
